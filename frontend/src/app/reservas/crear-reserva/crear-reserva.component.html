@@ -1,0 +1,48 @@
+<div class="container">
+  <h2>Crear reserva (MVP)</h2>
+
+  <form [formGroup]="form">
+    <div class="row">
+      <label>Espacio</label>
+      <select formControlName="spaceId" (change)="onSpaceOrDateChange()">
+        <option value="" disabled selected>Selecciona un espacio</option>
+        <option *ngFor="let s of spaces" [value]="s.id">{{s.name}} ({{s.category}})</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label>Fecha</label>
+      <input type="date" formControlName="date" (change)="onSpaceOrDateChange()" />
+    </div>
+
+    <div class="row">
+      <label>Título / Propósito</label>
+      <input type="text" formControlName="title" placeholder="Ej. Reunión con cliente" />
+    </div>
+
+    <div class="row">
+      <label>Nombre (opcional)</label>
+      <input type="text" formControlName="createdBy" placeholder="Tu nombre" />
+    </div>
+  </form>
+
+  <hr />
+
+  <div class="slots">
+    <div class="slot" *ngFor="let s of slots"
+         [class.occupied]="s.occupied"
+         [class.selected]="s.selected"
+         (click)="toggleSlot(s)">
+      {{s.label}}
+      <div *ngIf="s.occupied" class="badge">No disponible</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button (click)="confirm()">Confirmar reserva</button>
+  </div>
+
+  <div class="message" *ngIf="message">
+    {{message}}
+  </div>
+</div>
